@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="pmwmAndUsartCourse.elf">                 
+    <memory name="program">              
+      <units>bytes</units>                 
+      <length>131072</length>                 
+      <used>585</used>                     
+      <free>130487</free>                     
+    </memory>                              
+    <memory name="data">                 
+      <units>bytes</units>                 
+      <length>16384</length>                 
+      <used>5</used>                     
+      <free>16379</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 

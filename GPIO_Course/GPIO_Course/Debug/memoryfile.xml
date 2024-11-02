@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="GPIO_Course.elf">                 
+    <memory name="program">              
+      <units>bytes</units>                 
+      <length>131072</length>                 
+      <used>348</used>                     
+      <free>130724</free>                     
+    </memory>                              
+    <memory name="data">                 
+      <units>bytes</units>                 
+      <length>16384</length>                 
+      <used>0</used>                     
+      <free>16384</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
