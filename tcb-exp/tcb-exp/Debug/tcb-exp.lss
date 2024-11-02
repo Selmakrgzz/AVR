@@ -179,13 +179,13 @@ Disassembly of section .text:
 Disassembly of section .text:
 
 000001e6 <__bad_interrupt>:
- 1e6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+ 1e6:	0c 94 00 00 	jmp	0	; 0x0 <__FLMAP_SECTION0__>
 
 Disassembly of section .text.LED_setup:
 
 000001ce <LED_setup>:
-#include <avr/interrupt.h>
 
+// Forteller kompileren at den ikke skal overse. RESPECT!
 volatile uint16_t counter;
 
 void LED_setup(){
@@ -204,7 +204,8 @@ Disassembly of section .text.TCB0_setup:
 }
 
 void TCB0_setup(){
-	TCB0.CCMP = 50000;
+	// Capture/Compare register value
+	TCB0.CCMP = 50000; //Klokkesyklusen. Skjer hver 0.025 sekund
  1a2:	e0 e0       	ldi	r30, 0x00	; 0
  1a4:	fb e0       	ldi	r31, 0x0B	; 11
  1a6:	80 e5       	ldi	r24, 0x50	; 80
@@ -252,31 +253,35 @@ ISR(TCB0_INT_vect){
  15c:	11 24       	eor	r1, r1
  15e:	8f 93       	push	r24
  160:	9f 93       	push	r25
-	
+	// 2 000 000 / 50 000 = 40
+	//Vi vil at lyset skal lyse hver sekund. Derfor teller vi antall ganger interrupt skjer i counter,
+	//Hvis den er lik 40, så har det gått 1 sek, og da lyser LEDen
 	if (counter == 40){
- 162:	80 91 00 40 	lds	r24, 0x4000	; 0x804000 <_edata>
- 166:	90 91 01 40 	lds	r25, 0x4001	; 0x804001 <_edata+0x1>
+ 162:	80 91 00 40 	lds	r24, 0x4000	; 0x804000 <__DATA_REGION_ORIGIN__>
+ 166:	90 91 01 40 	lds	r25, 0x4001	; 0x804001 <__DATA_REGION_ORIGIN__+0x1>
  16a:	88 97       	sbiw	r24, 0x28	; 40
  16c:	39 f4       	brne	.+14     	; 0x17c <__vector_12+0x28>
+		//Slår av og på LED-lyset (toggle)
 		PORTC.OUTTGL = PIN6_bm;
  16e:	80 e4       	ldi	r24, 0x40	; 64
  170:	80 93 47 04 	sts	0x0447, r24	; 0x800447 <__TEXT_REGION_LENGTH__+0x7e0447>
-		counter = 0;
- 174:	10 92 00 40 	sts	0x4000, r1	; 0x804000 <_edata>
- 178:	10 92 01 40 	sts	0x4001, r1	; 0x804001 <_edata+0x1>
+		counter = 0; //Husk å resette counter for hver gang
+ 174:	10 92 00 40 	sts	0x4000, r1	; 0x804000 <__DATA_REGION_ORIGIN__>
+ 178:	10 92 01 40 	sts	0x4001, r1	; 0x804001 <__DATA_REGION_ORIGIN__+0x1>
 	}
+	
+	//Når en interrupt skjer, så settes et interrupt-flag i TCB0 sin interrupt-flags register
 	TCB0.INTFLAGS  = TCB_CAPT_bm;
  17c:	81 e0       	ldi	r24, 0x01	; 1
  17e:	80 93 06 0b 	sts	0x0B06, r24	; 0x800b06 <__TEXT_REGION_LENGTH__+0x7e0b06>
 	
-
-	
+	//Teller antall ganger interrupt oppstår
 	counter++;
- 182:	80 91 00 40 	lds	r24, 0x4000	; 0x804000 <_edata>
- 186:	90 91 01 40 	lds	r25, 0x4001	; 0x804001 <_edata+0x1>
+ 182:	80 91 00 40 	lds	r24, 0x4000	; 0x804000 <__DATA_REGION_ORIGIN__>
+ 186:	90 91 01 40 	lds	r25, 0x4001	; 0x804001 <__DATA_REGION_ORIGIN__+0x1>
  18a:	01 96       	adiw	r24, 0x01	; 1
- 18c:	80 93 00 40 	sts	0x4000, r24	; 0x804000 <_edata>
- 190:	90 93 01 40 	sts	0x4001, r25	; 0x804001 <_edata+0x1>
+ 18c:	80 93 00 40 	sts	0x4000, r24	; 0x804000 <__DATA_REGION_ORIGIN__>
+ 190:	90 93 01 40 	sts	0x4001, r25	; 0x804001 <__DATA_REGION_ORIGIN__+0x1>
  194:	9f 91       	pop	r25
  196:	8f 91       	pop	r24
  198:	0f 90       	pop	r0

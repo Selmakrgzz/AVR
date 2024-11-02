@@ -13,8 +13,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Debug|AVR.ActiveCfg = Debug|AVR
 		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Debug|AVR.Build.0 = Debug|AVR
-		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Release|AVR.ActiveCfg = Release|AVR
-		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Release|AVR.Build.0 = Release|AVR
+		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Release|AVR.ActiveCfg = Debug|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
