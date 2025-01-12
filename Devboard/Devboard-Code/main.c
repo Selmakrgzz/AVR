@@ -2,7 +2,7 @@
  * main.c
  *
  * Created: 11/2/2024 8:54:56 AM
- *  Author: Bruker
+ *  Author: Selma
  */ 
 
 #include <avr/io.h>
